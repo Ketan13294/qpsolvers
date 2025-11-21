@@ -23,7 +23,7 @@ from typing import Optional, Union
 import numpy as np
 import osqp
 import scipy.sparse as spa
-from osqp import OSQP
+from osqp import OSQP, SolverStatus
 from scipy.sparse import csc_matrix
 
 from ..conversions import ensure_sparse_matrices
@@ -135,8 +135,7 @@ def osqp_solve_problem(
     if initvals is not None:
         solver.warm_start(x=initvals)
 
-    res = solver.solve()
-    success_status = osqp.constant("OSQP_SOLVED")
+    res = solver.solve(raise_error=False)  # `None` will be returned instead.
 
     solution = Solution(problem)
     solution.extras = {
@@ -145,7 +144,7 @@ def osqp_solve_problem(
         "prim_inf_cert": res.prim_inf_cert,
     }
 
-    solution.found = res.info.status_val == success_status
+    solution.found = res.info.status_val == SolverStatus.OSQP_SOLVED
     if not solution.found:
         warnings.warn(f"OSQP exited with status '{res.info.status}'")
     solution.x = res.x
