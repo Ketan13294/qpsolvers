@@ -135,7 +135,7 @@ def osqp_solve_problem(
     if initvals is not None:
         solver.warm_start(x=initvals)
 
-    res = solver.solve(raise_error=False)  # `None` will be returned instead.
+    res = solver.solve()
 
     solution = Solution(problem)
     solution.extras = {
