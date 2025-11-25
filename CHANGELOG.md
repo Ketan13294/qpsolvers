@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Prevent deprecation warnings from OSQP related to solver status (thanks to @jkeust)
+- Prevent warning message from OSQP about conversion to a CSC matrix (thanks to @jkeust)
 - Slightly more explicit error message when a solver is not found
 
 ## [4.8.1] - 2025-08-07
